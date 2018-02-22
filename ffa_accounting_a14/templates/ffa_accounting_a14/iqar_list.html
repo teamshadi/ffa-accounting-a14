@@ -1,0 +1,84 @@
+{% load bootstrap3 %}
+{% load humanize %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<style>
+  .ar { direction:rtl; }
+  .en { direction:ltr; }
+</style>
+
+
+<div class="container">
+
+  <div class="row ar">
+    <div class="col-sm-4">
+      FFA Private Bank SAL
+    </div>
+    <div class="col-sm-4">
+      المَصرِف 129 إِف.إِف.إِي. ش.م.ل.
+      <br>
+      مَصدَر المَعلومات: شَهرِيَّة
+      <br>
+      طَبيعَة المَعلومات
+      {{now|date:"d-m-Y"}}
+    </div>
+    <div class="col-sm-4">
+      A14
+      <br>
+      العِقارات المُمتَلَكَة أَو قَيد الشِراء
+      <br>
+       وُفقاً لِلمادَة 153 مِن ق.ن.ت.
+      <br>
+      <br>
+      <br>
+      تاريخ الوَضعِيَّة
+      <br>
+      &nbsp;
+    </div>
+  </div>
+  <div class="row">
+
+    <table class="table table-bordered ar">
+      <tr>
+        <th>رَقم العِقار</th>
+        <th>المِنطَقَة العِقار</th>
+        <th>المَساحَة بِالمِتر  المُرَبَّع</th>
+        <th>مُشتَمَلات العِقار</th>
+        <th>وُجهَة إِستِعمال العِقار</th>
+        <th>تاريخ تَمَلُّك العِقار</th>
+        <th>نَوع عُملَة شِراء العِقار</th>
+        <th>القيمَة الشِرائِيَّة التاريخِيَّة بِأَلاف ل.ل.</th>
+        <th>إِستَهلاكات عَلى القيمَة الشِرائِيَّة بِأَلاف ل.ل.</th>
+      </tr>
+    {% for iqar in object_list %}
+      <tr>
+        <td>{{ iqar.registered_number }}</td>
+        <td>{{ iqar.location }}</td>
+        <td>{{ iqar.area }}</td>
+        <td class='en'>{{ iqar.contents }}</td>
+        <td class='en'>{{ iqar.purpose }}</td>
+        <td>{{ iqar.date_owned|date:'Y-m-d' }}</td>
+        <td>{{ iqar.currencies }}</td>
+        <td>{{ iqar.value_1|intcomma }}</td>
+        <td>{{ iqar.value_2|intcomma }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td>No entries yet.</td>
+      </tr>
+    {% endfor %}
+      <tr>
+        <td colspan='7'>المَجموع</td>
+        <td>{{total_1|intcomma}}</td>
+        <td>{{total_2|intcomma}}</td>
+      </tr>
+    </table>
+  </div>
+
+
+  Add/Edit in <a href="{% url 'admin:index' %}">admin</a>
+
+</div>
